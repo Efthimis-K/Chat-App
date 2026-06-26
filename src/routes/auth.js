@@ -12,7 +12,7 @@ router.post("/login", async (req, res) => {
       .json({ error: "Username and password are required" });
   }
 
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ username }).select('+passwordHash');
   if (!user || !(await user.verifyPassword(password))) {
     return res.status(401).json({ error: "Invalid credentials" });
   }

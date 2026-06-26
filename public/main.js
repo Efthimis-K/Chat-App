@@ -198,7 +198,7 @@ function addMessage(username, message, timestamp, isOwn) {
   });
 
   messageDiv.innerHTML = `
-    <div class="username">${username}</div>
+    <div class="username">${escapeHtml(username)}</div>
     <div class="content">${escapeHtml(message)}</div>
     <div class="timestamp">${time}</div>
   `;
