@@ -17,8 +17,7 @@ const messages = document.getElementById("messages");
 const userList = document.getElementById("userList");
 const currentUserEl = document.getElementById("currentUser");
 const currentRoomEl = document.getElementById("currentRoom");
-const leaveRoomBtn = document.getElementById("leaveRoomBtn");
-const logoutBtn = document.getElementById("logoutBtn");
+const leaveLogoutBtn = document.getElementById("leaveLogoutBtn");
 
 function connectSocket(token) {
   socket = io({ auth: { token } });
@@ -176,14 +175,12 @@ messageForm.addEventListener("submit", (e) => {
   }
 });
 
-leaveRoomBtn.addEventListener("click", () => {
+leaveLogoutBtn.addEventListener("click", () => {
+  // Emit leave-room if in a room and socket exists
   if (currentUsername && currentRoom && socket) {
     socket.emit("leave-room", { room: currentRoom });
-    showLoginScreen();
   }
-});
-
-logoutBtn.addEventListener("click", () => {
+  // Clear authentication token and return to login screen
   localStorage.removeItem("token");
   showLoginScreen();
 });
