@@ -76,6 +76,26 @@ body {
   color: #fff;
 }
 
+.auth-toggle {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #667eea;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.link-btn:hover {
+  color: #764ba2;
+}
+
 #loginForm button {
   padding: 15px 20px;
   border: none;
