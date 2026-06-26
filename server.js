@@ -62,6 +62,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send-message", ({ room, message }) => {
+    if (!socket.rooms.has(room)) return;
+
     const username = socket.user.username;
     const messageData = {
       username,
@@ -74,11 +76,14 @@ io.on("connection", (socket) => {
   });
 
   socket.on("leave-room", ({ room }) => {
+    if (!socket.rooms.has(room)) return;
+
     const username = socket.user.username;
     socket.leave(room);
 
     if (rooms[room]) {
       const user = Array.from(rooms[room]).find((u) => u.id === socket.id);
+      if (!user) return;
       rooms[room].delete(user);
 
       io.to(room).emit("user-left", {
@@ -96,20 +101,19 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     for (const room in rooms) {
-      if (rooms[room].has(socket.id)) {
-        const user = Array.from(rooms[room]).find((u) => u.id === socket.id);
-        rooms[room].delete(user);
+      const user = Array.from(rooms[room]).find((u) => u.id === socket.id);
+      if (!user) continue;
+      rooms[room].delete(user);
 
-        io.to(room).emit("user-left", {
-          username: user?.username || "Unknown",
-          users: Array.from(rooms[room]),
-        });
+      io.to(room).emit("user-left", {
+        username: user?.username || "Unknown",
+        users: Array.from(rooms[room]),
+      });
 
-        console.log(`User ${user?.username} left room: ${room}`);
+      console.log(`User ${user?.username} left room: ${room}`);
 
-        if (rooms[room].size === 0) {
-          delete rooms[room];
-        }
+      if (rooms[room].size === 0) {
+        delete rooms[room];
       }
     }
   });

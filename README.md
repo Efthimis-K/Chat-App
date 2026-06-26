@@ -14,7 +14,7 @@ A premium real-time chat application with room-based communication, built with N
 
 ## Project Structure
 
-```
+```text
 chat-app/
 ├── public/               # Static assets (HTML, CSS, client-side JS)
 ├── src/

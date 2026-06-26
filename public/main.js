@@ -89,7 +89,7 @@ function showLoginScreen() {
 function showAuthFeedback(text, isError = true) {
   authFeedback.textContent = text;
   authFeedback.className = "auth-feedback" + (isError ? " error" : " success");
-  setTimeout(() => authFeedback.className = "auth-feedback", 3000);
+  setTimeout(() => (authFeedback.className = "auth-feedback"), 3000);
 }
 
 toggleSignupBtn.addEventListener("click", () => {
@@ -130,7 +130,10 @@ loginForm.addEventListener("submit", async (e) => {
       }
 
       if (isSignupMode) {
-        showAuthFeedback("Account created successfully! You can now log in.", false);
+        showAuthFeedback(
+          "Account created successfully! You can now log in.",
+          false,
+        );
         document.getElementById("usernameInput").value = "";
         document.getElementById("passwordInput").value = "";
         toggleSignupBtn.click();
@@ -176,19 +179,7 @@ messageForm.addEventListener("submit", (e) => {
 leaveRoomBtn.addEventListener("click", () => {
   if (currentUsername && currentRoom && socket) {
     socket.emit("leave-room", { room: currentRoom });
-
-    messages.innerHTML = "";
-    userList.innerHTML = "";
-
-    currentUsername = "";
-    currentRoom = "";
-
-    chatScreen.style.display = "none";
-    loginScreen.style.display = "flex";
-
-    document.getElementById("usernameInput").value = "";
-    document.getElementById("passwordInput").value = "";
-    document.getElementById("roomSelect").selectedIndex = 0;
+    showLoginScreen();
   }
 });
 
