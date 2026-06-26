@@ -29,6 +29,32 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
+.auth-feedback {
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.auth-feedback.error {
+  background: rgba(255, 100, 100, 0.15);
+  border: 1px solid rgba(255, 100, 100, 0.3);
+  color: #ffb4b4;
+}
+
+.auth-feedback.success {
+  background: rgba(100, 255, 100, 0.15);
+  border: 1px solid rgba(100, 255, 100, 0.3);
+  color: #b4ffb4;
+}
+
+.auth-feedback.show {
+  opacity: 1;
+}
+
 .login-screen {
   display: flex;
   align-items: center;

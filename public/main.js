@@ -8,6 +8,7 @@ const loginForm = document.getElementById("loginForm");
 const toggleSignupBtn = document.getElementById("toggleSignup");
 const loginSubmitBtn = document.getElementById("loginSubmitBtn");
 const authToggleText = document.querySelector(".auth-toggle");
+const authFeedback = document.getElementById("authFeedback");
 
 let isSignupMode = false;
 const messageForm = document.getElementById("messageForm");
@@ -81,6 +82,14 @@ function showLoginScreen() {
   authToggleText.childNodes[0].textContent = "Don't have an account? ";
   document.getElementById("loginScreen").querySelector("h1").textContent =
     "Welcome to Chat";
+  authFeedback.textContent = "";
+  authFeedback.className = "auth-feedback";
+}
+
+function showAuthFeedback(text, isError = true) {
+  authFeedback.textContent = text;
+  authFeedback.className = "auth-feedback" + (isError ? " error" : " success");
+  setTimeout(() => authFeedback.className = "auth-feedback", 3000);
 }
 
 toggleSignupBtn.addEventListener("click", () => {
@@ -114,14 +123,14 @@ loginForm.addEventListener("submit", async (e) => {
 
       if (!res.ok) {
         const data = await res.json();
-        addSystemMessage(
+        showAuthFeedback(
           data.error || (isSignupMode ? "Sign up failed" : "Login failed"),
         );
         return;
       }
 
       if (isSignupMode) {
-        addSystemMessage("Account created successfully! You can now log in.");
+        showAuthFeedback("Account created successfully! You can now log in.", false);
         document.getElementById("usernameInput").value = "";
         document.getElementById("passwordInput").value = "";
         toggleSignupBtn.click();
@@ -143,7 +152,7 @@ loginForm.addEventListener("submit", async (e) => {
 
       addSystemMessage(`You joined the ${currentRoom} room`);
     } catch {
-      addSystemMessage(isSignupMode ? "Sign up failed" : "Login failed");
+      showAuthFeedback(isSignupMode ? "Sign up failed" : "Login failed");
     }
   }
 });
