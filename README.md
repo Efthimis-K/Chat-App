@@ -29,6 +29,8 @@ chat-app/
 ├── test_login.js         # Login test script
 ├── test_register.js      # Registration test script
 ├── .gitignore            # Git ignore rules
+├── .example.env          # Template for environment variables (commit this)
+├── .env                  # Local environment variables (git-ignored, do not commit)
 └── README.md             # This file
 ```
 
@@ -88,13 +90,21 @@ chat-app/
 
 3. **Configure environment variables**
 
-   Create a `.env` file in the root directory:
+   A `.example.env` file is included in the repository as a template. Copy it to a `.env` file and fill in your own values — **do not modify the code that reads `.env`**, and keep your `.env` file private (it is already git-ignored).
+
+   ```bash
+   cp .example.env .env
+   ```
+
+   Then open `.env` and set your own values:
 
    ```env
    MONGO_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/chat-app?retryWrites=true&w=majority
    JWT_SECRET=your-secret-key-here
    PORT=5000
    ```
+
+   > The application loads `.env` via `dotenv` at startup using `process.env.<VARIABLE>` (see `server.js`). Only edit the values inside your local `.env` file; never commit it or change how the variables are accessed in code.
 
    | Variable     | Required | Description                                   |
    | ------------ | -------- | --------------------------------------------- |
